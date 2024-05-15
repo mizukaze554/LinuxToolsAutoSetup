@@ -21,7 +21,7 @@ This repository contains a bash script to automatically set up a development env
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/yourusername/LinuxToolsAutoSetup.git
+    git clone https://github.com/Cherrystone123/LinuxToolsAutoSetup.git
     cd LinuxToolsAutoSetup
     ```
 
