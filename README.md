@@ -1,6 +1,6 @@
 # LinuxToolsAutoSetup
 
-This repository contains a bash script to automatically set up a development environment on a Linux machine. The script installs tools such as Node.js, npm, React, Flutter, Dart SDK, Android Studio, and Visual Studio Code.
+This repository contains a bash script to automatically set up a development environment on a Linux machine. The script installs tools such as Node.js, npm, React, Flutter, Dart SDK, Android Studio, Visual Studio Code, and Laravel.
 
 ## Prerequisites
 
@@ -15,6 +15,7 @@ This repository contains a bash script to automatically set up a development env
 - **Dart SDK**
 - **Android Studio** (optional)
 - **Visual Studio Code**
+- **Laravel**
 
 ## Usage
 
@@ -69,7 +70,11 @@ The script performs the following tasks:
     - Adds the Dart SDK repository and installs Dart.
     - Adds Dart SDK to the system `PATH`.
 
-8. **Verify Installations:**
+8. **Install Laravel:**
+    - Installs PHP, Composer, and Laravel installer.
+    - Adds Composer's global bin directory to the system `PATH`.
+
+9. **Verify Installations:**
     - Checks and displays the versions of the installed tools to confirm successful installation.
 
 ## License
