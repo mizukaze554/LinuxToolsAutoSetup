@@ -25,9 +25,9 @@ function install_dependencies() {
   sudo apt install -y curl git unzip xz-utils || handle_error "installing curl, git, unzip, and xz-utils"
 }
 
-# Function to install Node.js and npm
+# Function to install or upgrade Node.js and npm
 function install_nodejs() {
-  echo_message "Installing Node.js and npm..."
+  echo_message "Installing or upgrading Node.js and npm..."
   read -p "Enter the version of Node.js to install (default is 16): " NODE_VERSION
   NODE_VERSION=${NODE_VERSION:-16}
   curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash - || handle_error "setting up Node.js repository"
@@ -36,17 +36,17 @@ function install_nodejs() {
   npm -v || handle_error "verifying npm installation"
 }
 
-# Function to install create-react-app
+# Function to install or upgrade create-react-app
 function install_react() {
   install_nodejs
-  echo_message "Installing create-react-app globally..."
+  echo_message "Installing or upgrading create-react-app globally..."
   sudo npm install -g create-react-app || handle_error "installing create-react-app"
   create-react-app --version || handle_error "verifying create-react-app installation"
 }
 
-# Function to install Flutter
+# Function to install or upgrade Flutter
 function install_flutter() {
-  echo_message "Installing Dart SDK..."
+  echo_message "Installing or upgrading Dart SDK..."
   sudo apt install -y apt-transport-https || handle_error "installing apt-transport-https"
   sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -' || handle_error "adding Google signing key"
   sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list' || handle_error "adding Dart repository"
@@ -56,7 +56,7 @@ function install_flutter() {
   export PATH="$PATH:/usr/lib/dart/bin"
   echo 'export PATH="$PATH:/usr/lib/dart/bin"' >> ~/.bashrc
 
-  echo_message "Installing Flutter..."
+  echo_message "Installing or upgrading Flutter..."
   read -p "Enter the version of Flutter to install (default is stable): " FLUTTER_VERSION
   FLUTTER_VERSION=${FLUTTER_VERSION:-stable}
   curl -O https://storage.googleapis.com/flutter_infra_release/releases/$FLUTTER_VERSION/linux/flutter_linux_$FLUTTER_VERSION-latest.tar.xz || handle_error "downloading Flutter"
@@ -81,18 +81,31 @@ function install_snap() {
   fi
 }
 
-# Function to install Android Studio
+# Function to install or upgrade Android Studio
 function install_android_studio() {
   install_snap
-  echo_message "Installing Android Studio..."
+  echo_message "Installing or upgrading Android Studio..."
   sudo snap install android-studio --classic || handle_error "installing Android Studio"
 }
 
-# Function to install Visual Studio Code
+# Function to install or upgrade Visual Studio Code
 function install_vscode() {
   install_snap
-  echo_message "Installing Visual Studio Code..."
+  echo_message "Installing or upgrading Visual Studio Code..."
   sudo snap install --classic code || handle_error "installing Visual Studio Code"
+}
+
+# Function to install or upgrade Laravel
+function install_laravel() {
+  echo_message "Installing or upgrading Laravel..."
+  install_nodejs
+  sudo apt install -y php php-cli php-mbstring unzip || handle_error "installing PHP dependencies"
+  curl -sS https://getcomposer.org/installer | php || handle_error "downloading Composer"
+  sudo mv composer.phar /usr/local/bin/composer || handle_error "moving Composer to bin directory"
+  composer global require laravel/installer || handle_error "installing Laravel"
+  export PATH="$PATH:$HOME/.config/composer/vendor/bin"
+  echo 'export PATH="$PATH:$HOME/.config/composer/vendor/bin"' >> ~/.bashrc
+  laravel --version || handle_error "verifying Laravel installation"
 }
 
 # Update and upgrade the system
@@ -101,7 +114,7 @@ sudo apt update -y || handle_error "updating package list"
 sudo apt upgrade -y || handle_error "upgrading packages"
 
 # Prompt user for input
-echo "Choose the development field name to setup (Node.js, React, Flutter, Android Studio, vscode):"
+echo "Choose the development field name to setup (Node.js, React, Flutter, Android Studio, vscode, Laravel):"
 read userInput
 
 # Call the appropriate installation function
@@ -126,6 +139,10 @@ case $userInput in
     install_dependencies
     install_vscode
     ;;
+  "Laravel")
+    install_dependencies
+    install_laravel
+    ;;
   *)
     echo_message "Invalid option selected. Please choose a valid development field name."
     exit 1
@@ -141,5 +158,6 @@ flutter --version || echo "Flutter not installed."
 dart --version || echo "Dart SDK not installed."
 code --version || echo "Visual Studio Code not installed."
 android-studio --version || echo "Android Studio not installed."
+laravel --version || echo "Laravel not installed."
 
 echo_message "Development environment setup completed successfully!"
