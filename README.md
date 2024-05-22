@@ -29,8 +29,8 @@ This repository contains scripts to automatically set up a development environme
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/Cherrystone123/DevToolsAutoSetup.git
-    cd DevToolsAutoSetup
+    git clone https://github.com/Cherrystone123/LinuxToolsAutoSetup.git
+    cd LinuxToolsAutoSetup
     ```
 
 2. **Make the script executable:**
@@ -52,8 +52,8 @@ This repository contains scripts to automatically set up a development environme
 1. **Clone the repository:**
 
     ```powershell
-    git clone https://github.com/Cherrystone123/DevToolsAutoSetup.git
-    cd DevToolsAutoSetup
+    git clone https://github.com/Cherrystone123/LinuxToolsAutoSetup.git
+    cd LinuxToolsAutoSetup
     ```
 
 2. **Run the script in PowerShell:**
